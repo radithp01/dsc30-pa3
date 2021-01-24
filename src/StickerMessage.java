@@ -19,7 +19,7 @@ public class StickerMessage extends Message {
 
     public String getContents() {
         String output = getSender().displayName()+" ["+getDate().toString()+
-                "]: Sticker "+contents+" from Pack"+ getDate();
+                "]: Sticker "+contents+" from Pack ["+ getPackName()+"]";
         return output;
     }
 

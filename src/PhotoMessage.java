@@ -33,7 +33,8 @@ public class PhotoMessage extends Message {
     }
 
     public String getContents() {
-        String output = getSender().displayName()+" ["+getDate().toString()+"]: "+this.contents;
+        String output = getSender().displayName()+" ["+getDate().toString()+"]: Picture at "+
+                this.contents;
         return output;
     }
 

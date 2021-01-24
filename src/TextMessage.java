@@ -18,7 +18,7 @@ public class TextMessage extends Message {
 
     public String getContents() {
 
-        String output = getSender().displayName() + " [" + getDate().toString() + "]: " + this.contents;
+        String output = getSender().displayName() + " [" + getDate().toString() + "]: " +contents;
         return output;
     }
 
