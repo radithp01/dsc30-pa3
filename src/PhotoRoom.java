@@ -38,12 +38,13 @@ public class PhotoRoom implements MessageExchange {
      */
 
     public boolean addUser(User u) {
-        if (!(u instanceof PremiumUser)){
-            return false;
-        }
-        else {
+        if (u instanceof PremiumUser){
             users.add(u);
             return true;
+
+        }
+        else {
+            return false;
         }
     }
 

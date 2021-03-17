@@ -43,22 +43,24 @@ public class StandardUser extends User {
         }
         ArrayList<Message> log = me.getLog();
         StringBuilder output = new StringBuilder("");
-        int length = Math.min(log.size(),HUNDRED);
-        int difference = log.size() - length;
-        /*
-        Creates the message using a for loop.
-         */
-        for (int x = 0;x < length; x++){
-            if (log.get(x) instanceof TextMessage){
-                output.append(log.get(difference + x).getContents());
+        if (log.size() <= HUNDRED) {
+            for (int i = 0; i < log.size(); i++) {
+                if (log.get(i) instanceof TextMessage) {
+                    output.append(log.get(i).getContents() + "\n");
+                } else {
+                    output.append(FETCH_DENIED_MSG + "\n");
+                }
             }
-            else{
-                output.append(FETCH_DENIED_MSG);
+        } else {
+            for (int i = 0; i < HUNDRED; i++) {
+                if (log.get(log.size()-(HUNDRED - i)) instanceof TextMessage) {
+                    output.append(log.get(i).getContents() + "\n");
+                } else {
+                    output.append(FETCH_DENIED_MSG + "\n");
+                }
             }
-            output.append("\r\n");
         }
-        String finalOutput = output.toString();
-        return finalOutput;
+        return output.toString();
     }
 
     /**

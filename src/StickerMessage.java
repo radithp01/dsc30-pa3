@@ -23,15 +23,16 @@ public class StickerMessage extends Message {
      */
     public StickerMessage(User sender, String stickerSource) throws OperationDeniedException {
         super(sender);
-        String[] arrays = stickerSource.split("/");
-        packName = arrays[0];
-        contents = arrays[1];
         if (!(getSender() instanceof PremiumUser)){
             throw new OperationDeniedException(DENIED_USER_GROUP);
         }
         if ((sender == null) || (stickerSource == null)){
             throw new IllegalArgumentException();
         }
+        String[] arrays = stickerSource.split("/");
+        packName = arrays[0];
+        contents = arrays[1];
+
     }
 
     /**
@@ -42,7 +43,7 @@ public class StickerMessage extends Message {
 
     public String getContents() {
         String output = getSender().displayName()+" ["+getDate().toString()+
-                "]: Sticker "+contents+" from Pack ["+ getPackName()+"]";
+                "]: Sticker ["+contents+"] from Pack ["+ getPackName()+"]";
         return output;
     }
 

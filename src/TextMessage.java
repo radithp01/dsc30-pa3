@@ -20,13 +20,14 @@ public class TextMessage extends Message {
      */
     public TextMessage(User sender, String text) throws OperationDeniedException {
         super(sender);
-        this.contents = text;
         if (text.length() > MAXLENGTH){
             throw new OperationDeniedException(EXCEED_MAX_LENGTH);
         }
         else if ((sender == null) || (text == null)){
             throw new IllegalArgumentException();
         }
+        this.contents = text;
+
     }
 
     /**

@@ -48,7 +48,7 @@ public class ChatRoom implements MessageExchange {
      */
 
     public void removeUser(User u) {
-        users.remove(u);
+        this.users.remove(u);
     }
 
     /**

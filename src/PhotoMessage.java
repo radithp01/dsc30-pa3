@@ -13,6 +13,7 @@ public class PhotoMessage extends Message {
     // Error message to use in OperationDeniedException
     private static final String INVALID_INPUT =
             "The source path given cannot be parsed as photo.";
+    private static final int TYPE = 7;
 
     // instance variable
     private String extension;
@@ -42,10 +43,13 @@ public class PhotoMessage extends Message {
         int checker = 0;
         for (int i = 0; i < acceptable.length; i++){
             if (acceptable[i].equals(extension)){
+                continue;
+            }
+            else{
                 checker += 1;
             }
         }
-        if (checker == 0){
+        if (checker == TYPE){
             throw new OperationDeniedException(INVALID_INPUT);
         }
 

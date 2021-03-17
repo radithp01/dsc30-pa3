@@ -28,10 +28,10 @@ public abstract class User {
      * @param bio
      */
     public User(String username, String bio) {
-        rooms  = new ArrayList<MessageExchange>();
         if ((username == null) || (bio == null)){
             throw new IllegalArgumentException();
         }
+        rooms  = new ArrayList<MessageExchange>();
         this.username = username;
         this.bio = bio;
     }
@@ -65,14 +65,20 @@ public abstract class User {
      */
 
     public void joinRoom(MessageExchange me) throws OperationDeniedException {
-        if ((me.addUser(this) == false) || (this.rooms.contains(me))){
-            throw new OperationDeniedException(JOIN_ROOM_FAILED);
-
-        }
         if (me == null){
             throw new IllegalArgumentException();
         }
-        this.rooms.add(me);
+        if (this.rooms.contains(me)){
+            throw new OperationDeniedException(JOIN_ROOM_FAILED);
+        }
+        else {
+            if (me.addUser(this)){
+                this.rooms.add(me);
+            }
+            else{
+                throw new OperationDeniedException(JOIN_ROOM_FAILED);
+            }
+        }
     }
 
     /**
@@ -86,8 +92,10 @@ public abstract class User {
         if (me == null){
             throw new IllegalArgumentException();
         }
-        rooms.remove(me);
-        me.removeUser(this);
+        else {
+            rooms.remove(me);
+            me.removeUser(this);
+        }
     }
 
     /**
@@ -102,7 +110,11 @@ public abstract class User {
             throw new IllegalArgumentException();
         }
         ChatRoom chat = new ChatRoom();
-        users.add(this);
+        try {
+            this.joinRoom(chat);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         for (int i = 0; i < users.size();i++){
             try {
                 users.get(i).joinRoom(chat);
@@ -128,7 +140,7 @@ public abstract class User {
         if ((me == null) || (msgType == null) || (contents == null)){
             throw new IllegalArgumentException();
         }
-        if (!me.getUsers().contains(this)){
+        if (!(me.getUsers().contains(this))){
             throw new IllegalArgumentException();
         }
         /*
@@ -137,7 +149,7 @@ public abstract class User {
         if (msgType == MessageType.TEXT){
             try {
                 TextMessage newText = new TextMessage(this,contents);
-                if (!(me.recordMessage(newText))){
+                if (me.recordMessage(newText) != true){
                     System.out.println(INVALID_MSG_TYPE);
                 }
             } catch (Exception e){
@@ -150,7 +162,7 @@ public abstract class User {
         else if (msgType == MessageType.PHOTO){
             try {
                 PhotoMessage newPhoto = new PhotoMessage(this,contents);
-                if (!(me.recordMessage(newPhoto))){
+                if (me.recordMessage(newPhoto) != true){
                     System.out.println(INVALID_MSG_TYPE);
                 }
             } catch (Exception e){
@@ -163,7 +175,7 @@ public abstract class User {
         else if (msgType == MessageType.STICKER){
             try {
                 StickerMessage newSticker = new StickerMessage(this,contents);
-                if (!(me.recordMessage(newSticker))){
+                if (me.recordMessage(newSticker) != true){
                     System.out.println(INVALID_MSG_TYPE);
                 }
             } catch (Exception e){

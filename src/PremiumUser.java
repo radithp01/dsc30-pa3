@@ -46,8 +46,7 @@ public class PremiumUser extends User {
         Creates the message using a for loop.
          */
         for (int i = 0; i < log.size(); i++){
-            output.append(log.get(i).getContents());
-            output.append("\r\n");
+            output.append(log.get(i).getContents() + "\n");
         }
         String finalOutput = output.toString();
         return finalOutput;
@@ -65,15 +64,21 @@ public class PremiumUser extends User {
             throw new IllegalArgumentException();
         }
         PhotoRoom photo = new PhotoRoom();
-        users.add(this);
-        for (int i = 0; i < users.size();i++){
+        try {
+            this.joinRoom(photo);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        for (int i = 0; i < users.size(); i++) {
             try {
                 users.get(i).joinRoom(photo);
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.getMessage();
                 continue;
             }
         }
+
         return photo;
     }
 
